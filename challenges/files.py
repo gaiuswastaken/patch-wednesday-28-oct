@@ -38,7 +38,7 @@ def download(request):
     abspath = pathlib.Path.resolve(path)
     if abspath.is_relative_to(PUBLIC_DIR):
         try:
-            with open(path, "rb") as f:
+            with open(abspath, "rb") as f:
                 body = f.read()
         except (OSError, ValueError):
             return _not_found()
