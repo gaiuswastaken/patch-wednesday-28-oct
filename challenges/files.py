@@ -17,7 +17,7 @@ HINT: pathlib's Path.resolve(), then `.is_relative_to(PUBLIC_DIR)` (3.9+), or
 compare os.path.commonpath([...]). Flask's send_from_directory does this for you.
 """
 import os
-import Path
+import pathlib as Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUBLIC_DIR = os.path.join(os.path.dirname(HERE), "content", "files")
