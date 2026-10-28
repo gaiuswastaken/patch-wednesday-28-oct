@@ -35,7 +35,7 @@ def download(request):
     name = request.args.get("name", "")
     # THIS IS THE VULNERABLE PART: `name` is trusted and joined straight on.
     path = os.path.join(PUBLIC_DIR, name)
-    if os.path.commonpath(PUBLIC_DIR, path) != PUBLIC_DIR:
+    if os.path.commonpath([PUBLIC_DIR, path]) != PUBLIC_DIR:
         try:
             with open(path, "rb") as f:
                 body = f.read()
