@@ -21,6 +21,7 @@ import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUBLIC_DIR = os.path.join(os.path.dirname(HERE), "content", "files")
+safe_dir = os.path.abspath(PUBLIC_DIR)
 
 
 def index():
@@ -35,7 +36,7 @@ def download(request):
     name = request.args.get("name", "")
     # THIS IS THE VULNERABLE PART: `name` is trusted and joined straight on.
     path = os.path.join(PUBLIC_DIR, name)
-    if os.path.commonpath([PUBLIC_DIR, path]) == PUBLIC_DIR:
+    if os.path.commonpath([safe_dir, path]) == safe_dir:
         try:
             with open(path, "rb") as f:
                 body = f.read()
