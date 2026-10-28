@@ -35,10 +35,14 @@ def index():
 def download(request):
     safe_dir = os.path.abspath(PUBLIC_DIR)
     name = request.args.get("name", "")
-    # THIS IS THE VULNERABLE PART: `name` is trusted and joined straight on.
-    path = os.path.join(PUBLIC_DIR, name)
+    
+    # Resolve the path to eliminate relative segments like '../'
+    path = os.path.abspath(os.path.join(PUBLIC_DIR, name))
+    
     if os.path.commonpath([safe_dir, path]) == safe_dir:
         try:
+            if not os.path.isfile(path):
+                return _not_found()
             with open(path, "rb") as f:
                 body = f.read()
         except (OSError, ValueError):
