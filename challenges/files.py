@@ -18,10 +18,12 @@ compare os.path.commonpath([...]). Flask's send_from_directory does this for you
 """
 import os
 
+from urllib3 import request
+
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUBLIC_DIR = os.path.join(os.path.dirname(HERE), "content", "files")
-safe_dir = os.path.abspath(PUBLIC_DIR)
+
 
 
 def index():
@@ -33,6 +35,7 @@ def index():
 
 
 def download(request):
+    safe_dir = os.path.abspath(PUBLIC_DIR)
     name = request.args.get("name", "")
     # THIS IS THE VULNERABLE PART: `name` is trusted and joined straight on.
     path = os.path.join(PUBLIC_DIR, name)
@@ -44,7 +47,7 @@ def download(request):
             return _not_found()
         return (body, 200, {"Content-Type": "text/plain; charset=utf-8"})
     else:
-        _denied()
+        return _denied()
 
 
 def _not_found():
