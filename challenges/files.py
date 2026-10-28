@@ -18,8 +18,6 @@ compare os.path.commonpath([...]). Flask's send_from_directory does this for you
 """
 import os
 
-from urllib3 import request
-
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PUBLIC_DIR = os.path.join(os.path.dirname(HERE), "content", "files")
